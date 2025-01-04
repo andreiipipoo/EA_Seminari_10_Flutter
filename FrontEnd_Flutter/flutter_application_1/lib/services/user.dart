@@ -52,23 +52,22 @@ class UserService {
   }
 
   Future<List<UserModel>> getUsers() async {
-    print('getUsers');
-    try {
-      var res = await dio.get('$baseUrl/user');
-      List<dynamic> responseData =
-          res.data; // Obtener los datos de la respuesta
+  try {
+    var res = await dio.get('$baseUrl/user');
+    print('Resposta del backend: ${res.data}'); // Depuració
+    List<dynamic> responseData = res.data;
 
-      // Convertir los datos en una lista de objetos Place
-      List<UserModel> users =
-          responseData.map((data) => UserModel.fromJson(data)).toList();
+    // Convertir les dades en una llista d'objectes UserModel
+    List<UserModel> users = responseData
+        .map((data) => UserModel.fromJson(data))
+        .toList();
 
-      return users; // Devolver la lista de lugares
-    } catch (e) {
-      // Manejar cualquier error que pueda ocurrir durante la solicitud
-      print('Error fetching data: $e');
-      throw e; // Relanzar el error para que el llamador pueda manejarlo
-    }
+    return users;
+  } catch (e) {
+    print('Error fetching data: $e');
+    throw e;
   }
+}
 
   Future<int> EditUser(UserModel newUser, String id) async {
     print('createUser');
@@ -89,10 +88,10 @@ class UserService {
     statusCode = response.statusCode;
     print('Status code: $statusCode');
 
-    if (statusCode == 201) {
+    if (statusCode == 200) {
       // Si el usuario se crea correctamente, retornamos el código 201
-      print('201');
-      return 201;
+      print('200');
+      return 200;
     } else if (statusCode == 400) {
       // Si hay campos faltantes, retornamos el código 400
       print('400');
